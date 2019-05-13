@@ -1,21 +1,34 @@
 <template>
   <section class="section" id="app">
-    <component :is="currentComponent"></component>    
+    <component v-on:next="currentComponent = 'Listing'" :is="currentComponent"></component>
   </section>
 </template>
 
 <script>
 import Home from "./components/Home.vue";
+import Listing from "./components/Listing.vue";
+import { serverBus } from "./main";
 
 export default {
   name: "app",
-  data(){
-    return{
+  data() {
+    return {
       currentComponent: "Home"
+    };
+  },
+  methods: {
+    nextSection() {
+      this.currentComponent = "Listing";
     }
   },
   components: {
-    Home
+    Home,
+    Listing
+  },
+  created() {
+    serverBus.$on("nextComponent", val => {
+      this.currentComponent = val;
+    });
   }
 };
 </script>

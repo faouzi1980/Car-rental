@@ -34,7 +34,7 @@
         </div>
       </div>
       <div class="column">
-        <button @click="submit" class="button is-medium is-fullwidth is-primary">Search</button>
+        <button @click="submit('Listing')" class="button is-medium is-fullwidth is-primary">Search</button>
       </div>
     </div>
   </section>
@@ -43,6 +43,7 @@
 <script>
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import { serverBus } from "../main";
 
 export default {
   name: "Home",
@@ -57,7 +58,9 @@ export default {
     };
   },
   methods: {
-    submit() {}
+    submit(val) {
+      serverBus.$emit("nextComponent", val);
+    }
   },
   components: {
     flatPickr
