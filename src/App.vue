@@ -1,13 +1,14 @@
 <template>
-  <section class="section" id="app">
-    <component v-on:next="currentComponent = 'Listing'" :is="currentComponent"></component>
+  <section id="app">
+    <transition name="fade" mode="out-in">
+      <component v-on:nextComponent="currentComponent = 'Listing'" :is="currentComponent"></component>
+    </transition>
   </section>
 </template>
 
 <script>
 import Home from "./components/Home.vue";
 import Listing from "./components/Listing.vue";
-import { serverBus } from "./main";
 
 export default {
   name: "app",
@@ -24,11 +25,6 @@ export default {
   components: {
     Home,
     Listing
-  },
-  created() {
-    serverBus.$on("nextComponent", val => {
-      this.currentComponent = val;
-    });
   }
 };
 </script>
@@ -45,5 +41,14 @@ export default {
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
 }
 </style>

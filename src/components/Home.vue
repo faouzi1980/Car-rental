@@ -1,5 +1,5 @@
 <template>
-  <section class="home">
+  <section class="home section">
     <div class="has-text-centered">
       <img alt class="mBottom20" src="../assets/cars.png">
       <p class="title mBottom20">Book Your Car Now</p>
@@ -34,7 +34,10 @@
         </div>
       </div>
       <div class="column">
-        <button @click="submit('Listing')" class="button is-medium is-fullwidth is-primary">Search</button>
+        <button
+          @click="$emit('nextComponent')"
+          class="button is-medium is-fullwidth is-primary"
+        >Search</button>
       </div>
     </div>
   </section>
@@ -43,8 +46,6 @@
 <script>
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
-import { serverBus } from "../main";
-
 export default {
   name: "Home",
   data() {
@@ -56,11 +57,6 @@ export default {
         minDate: "today"
       }
     };
-  },
-  methods: {
-    submit(val) {
-      serverBus.$emit("nextComponent", val);
-    }
   },
   components: {
     flatPickr
