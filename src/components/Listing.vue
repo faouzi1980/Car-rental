@@ -40,7 +40,12 @@
       </div>
       <div class="section" v-else :key="2">
         <ul>
-          <li v-for="(car, index) in displayedCars" :key="index">
+          <li
+            :class="{highlightCard:index == selectedCar}"
+            @click="selectedCar = index"
+            v-for="(car, index) in displayedCars"
+            :key="index"
+          >
             <CarCard :data="car" :day="selectedDay"/>
           </li>
         </ul>
@@ -73,6 +78,7 @@ export default {
   },
   data() {
     return {
+      selectedCar: undefined,
       selectedPage: undefined,
       loading: false,
       cars: [],
@@ -191,6 +197,10 @@ export default {
   padding: 16px;
 }
 
+.highlightCard {
+  border: 3px solid grey;
+}
+
 .section {
   padding: 1.5rem;
 }
@@ -207,6 +217,7 @@ li {
   padding: 1.5rem;
   border-radius: 4px;
   margin-bottom: 1.2rem;
+  transition: all 0.2s;
 }
 
 .buttons {
