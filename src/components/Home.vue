@@ -35,11 +35,16 @@
       </div>
       <div class="column">
         <button
-          @click="$emit('nextComponent')"
+          type="submit"
+          @click="submit"
           class="button is-medium is-fullwidth is-primary"
         >Search</button>
       </div>
     </div>
+    <p
+      v-if="error"
+      class="has-text-danger has-text-centered errorMsg"
+    >Enter Location &amp; date to proceed</p>
   </section>
 </template>
 
@@ -50,13 +55,23 @@ export default {
   name: "Home",
   data() {
     return {
+      error: false,
       location: "",
       date: "",
       config: {
-        dateFormat: "d-m-Y",
         minDate: "today"
       }
     };
+  },
+  methods: {
+    submit() {
+      if (this.location == "" || this.date == "") {
+        this.error = true;
+      } else {
+        this.error = false;
+        this.$emit("nextComponent", this.date);
+      }
+    }
   },
   components: {
     flatPickr

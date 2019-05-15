@@ -6,6 +6,34 @@
       @transmissionFilter="transmissionFilter"
       @fuelFilter="fuelFilter"
     />
+    <div class="searchBar columns">
+      <div class="column">
+        <div class="field">
+          <p class="control has-icons-left">
+            <flat-pickr
+              v-model="selectedDay"
+              :config="config"
+              class="input"
+              placeholder="Select date"
+              name="date"
+            ></flat-pickr>
+            <span class="icon is-small is-left">
+              <box-icon name="calendar-event" color="#c8c8c8"></box-icon>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <p class="control has-icons-left">
+            <input class="input" type="text" placeholder="Search">
+            <span class="icon is-small is-left">
+              <box-icon name="search" color="#c8c8c8"></box-icon>
+            </span>
+          </p>
+        </div>
+      </div>
+    </div>
     <transition name="fade" mode="out-in">
       <div v-if="loading" class="loading" :key="1">
         <box-icon name="loader-alt" size="lg" animation="spin" color="#c8c8c8"></box-icon>
@@ -13,7 +41,7 @@
       <div class="section" v-else :key="2">
         <ul>
           <li v-for="(car, index) in displayedCars" :key="index">
-            <CarCard :data="car"/>
+            <CarCard :data="car" :day="selectedDay"/>
           </li>
         </ul>
         <div class="buttons has-addons">
@@ -33,11 +61,15 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import CarCard from "@/components/CarCard.vue";
+import flatPickr from "vue-flatpickr-component";
+import "flatpickr/dist/flatpickr.css";
 import axios from "axios";
 export default {
+  props: ["day"],
   components: {
     Navbar,
-    CarCard
+    CarCard,
+    flatPickr
   },
   data() {
     return {
@@ -49,7 +81,11 @@ export default {
       perPage: 6,
       pages: [],
       allCars: [],
-      search: ''
+      search: "",
+      selectedDay: this.day,
+      config: {
+        minDate: "today"
+      }
     };
   },
   methods: {
@@ -151,6 +187,13 @@ export default {
 
 
 <style scoped>
+.searchBar {
+  padding: 16px;
+}
+
+.section {
+  padding: 1.5rem;
+}
 .loading {
   height: 75vh;
   display: flex;

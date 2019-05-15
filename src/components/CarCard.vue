@@ -40,7 +40,12 @@
           <div class="column is-narrow has-text-centered pricesection">
             <p class="is-size-4">₹ {{data.price}}</p>
             <br>
-            <button class="button is-fullwidth is-medium is-success">Book Now</button>
+            <button
+              :disabled="!isCarAvailable"
+              :class="[isCarAvailable ? 'is-success' : 'is-light']"
+              class="button is-fullwidth is-medium"
+            >Book Now</button>
+            <span class="has-text-danger" v-if="!isCarAvailable">Not Available on {{dayChosen}}</span>
           </div>
         </div>
       </div>
@@ -50,7 +55,44 @@
 <script>
 export default {
   props: {
-    data: Object
+    data: Object,
+    day: String
+  },
+  data() {
+    return {
+      dayChosen: "",
+      availability: this.data.availability
+    };
+  },
+  methods: {
+    carAvailable() {
+      if (this.data.availability.includes(this.dayChosen)) {
+        console.log("Available for ", this.data.name);
+        return true;
+      }
+    },
+    parseDate(val) {
+      var dt = new Date(val).toString();
+      console.log(dt);
+      return dt.split(" ")[0];
+    }
+  },
+  computed: {
+    isCarAvailable() {
+      if (this.availability.includes(this.dayChosen)) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  },
+  watch: {
+    day(val) {
+      this.dayChosen = this.parseDate(this.day);
+    }
+  },
+  mounted() {
+    this.dayChosen = this.parseDate(this.day);
   }
 };
 </script>
