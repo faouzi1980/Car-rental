@@ -135,6 +135,7 @@ export default {
           return car.car_Type == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     transmissionFilter(type) {
@@ -145,6 +146,7 @@ export default {
           return car.transmission == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     fuelFilter(type) {
@@ -155,6 +157,7 @@ export default {
           return car.fuel_Type == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     processCars(cars) {
