@@ -1,11 +1,13 @@
 <template>
   <section>
+    <!-- Navigation bar which emits Filter events -->
     <Navbar
       @sort="sort"
       @carTypeFilter="carTypeFilter"
       @transmissionFilter="transmissionFilter"
       @fuelFilter="fuelFilter"
     />
+    <!-- Search input and Date input -->
     <div class="searchBar columns">
       <div class="column">
         <div class="field">
@@ -35,21 +37,25 @@
       </div>
     </div>
     <transition name="fade" mode="out-in">
+      <!-- Show Loader when fetching data from network -->
       <div v-if="loading" class="loading" :key="1">
         <box-icon name="loader-alt" size="lg" animation="spin" color="#c8c8c8"></box-icon>
       </div>
       <div class="section" v-else :key="2">
         <ul>
+          <!-- show car cards, highlight selected card with highlightCard class, computed property to display 6 cards at once-->
           <li
             :class="{highlightCard:index == selectedCar}"
             @click="selectedCar = index"
             v-for="(car, index) in displayedCars"
             :key="index"
           >
+            <!-- Send current iteration car details -->
             <CarCard :data="car" :day="selectedDay"/>
           </li>
         </ul>
         <div class="buttons has-addons">
+          <!-- pagination buttons calculate number of buttons by number of pages-->
           <span
             class="button"
             v-for="(pageNumber, key) in pages"
@@ -195,6 +201,7 @@ export default {
 <style scoped>
 .searchBar {
   padding: 16px;
+  width: 100%;
 }
 
 .highlightCard {
