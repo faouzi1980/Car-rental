@@ -9,7 +9,7 @@
         <div class="field">
           <div class="control">
             <input
-              v-model="input.location"
+              v-model="location"
               class="input is-medium"
               type="text"
               placeholder="Pick up from"
@@ -21,7 +21,7 @@
         <div class="field">
           <p class="control has-icons-left">
             <flat-pickr
-              v-model="input.date"
+              v-model="date"
               :config="config"
               class="input is-medium"
               placeholder="Select date"
@@ -51,15 +51,14 @@
 <script>
 import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
+import axios from "axios";
 export default {
   name: "Home",
   data() {
     return {
       error: false,
-      input: {
-        location: "",
-        date: ""
-      },
+      location: "",
+      date: "",
       config: {
         minDate: "today"
       }
@@ -71,7 +70,7 @@ export default {
         this.error = true;
       } else {
         this.error = false;
-        this.$emit("nextComponent", this.input);
+        this.$emit("nextComponent", this.date);
       }
     }
   },

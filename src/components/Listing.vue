@@ -28,16 +28,6 @@
       <div class="column">
         <div class="field">
           <p class="control has-icons-left">
-            <input class="input" v-model="selectedLocation" type="text" placeholder="Location">
-            <span class="icon is-small is-left">
-              <box-icon name="search" color="#c8c8c8"></box-icon>
-            </span>
-          </p>
-        </div>
-      </div>
-      <div class="column">
-        <div class="field">
-          <p class="control has-icons-left">
             <input class="input" type="text" placeholder="Search">
             <span class="icon is-small is-left">
               <box-icon name="search" color="#c8c8c8"></box-icon>
@@ -61,7 +51,7 @@
             :key="index"
           >
             <!-- Send current iteration car details -->
-            <CarCard :data="car" :dayFromUser="selectedDay" :locationFromUser="selectedLocation"/>
+            <CarCard :data="car" :day="selectedDay"/>
           </li>
         </ul>
         <div class="buttons has-addons">
@@ -86,7 +76,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import axios from "axios";
 export default {
-  props: ["day", "location"],
+  props: ["day"],
   components: {
     Navbar,
     CarCard,
@@ -105,7 +95,6 @@ export default {
       allCars: [],
       search: "",
       selectedDay: this.day,
-      selectedLocation: this.location,
       config: {
         minDate: "today"
       }
@@ -146,6 +135,7 @@ export default {
           return car.car_Type == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     transmissionFilter(type) {
@@ -156,6 +146,7 @@ export default {
           return car.transmission == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     fuelFilter(type) {
@@ -166,6 +157,7 @@ export default {
           return car.fuel_Type == type;
         });
         this.cars = carType;
+        this.page = 1;
       }
     },
     processCars(cars) {
