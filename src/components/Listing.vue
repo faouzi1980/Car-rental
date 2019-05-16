@@ -28,6 +28,16 @@
       <div class="column">
         <div class="field">
           <p class="control has-icons-left">
+            <input class="input" v-model="selectedLocation" type="text" placeholder="Location">
+            <span class="icon is-small is-left">
+              <box-icon name="search" color="#c8c8c8"></box-icon>
+            </span>
+          </p>
+        </div>
+      </div>
+      <div class="column">
+        <div class="field">
+          <p class="control has-icons-left">
             <input class="input" type="text" placeholder="Search">
             <span class="icon is-small is-left">
               <box-icon name="search" color="#c8c8c8"></box-icon>
@@ -51,7 +61,7 @@
             :key="index"
           >
             <!-- Send current iteration car details -->
-            <CarCard :data="car" :day="selectedDay"/>
+            <CarCard :data="car" :dayFromUser="selectedDay" :locationFromUser="selectedLocation"/>
           </li>
         </ul>
         <div class="buttons has-addons">
@@ -76,7 +86,7 @@ import flatPickr from "vue-flatpickr-component";
 import "flatpickr/dist/flatpickr.css";
 import axios from "axios";
 export default {
-  props: ["day"],
+  props: ["day", "location"],
   components: {
     Navbar,
     CarCard,
@@ -95,6 +105,7 @@ export default {
       allCars: [],
       search: "",
       selectedDay: this.day,
+      selectedLocation: this.location,
       config: {
         minDate: "today"
       }

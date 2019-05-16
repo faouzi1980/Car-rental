@@ -45,7 +45,10 @@
               :class="[isCarAvailable ? 'is-success' : 'is-light']"
               class="button is-fullwidth is-medium"
             >Book Now</button>
-            <span class="has-text-danger" v-if="!isCarAvailable">Not Available on {{dayChosen}}</span>
+            <span
+              class="has-text-danger"
+              v-if="!isCarAvailable"
+            >This car is only available on {{availability}} &amp; can be picked up only from {{availableLocation}}</span>
           </div>
         </div>
       </div>
@@ -56,21 +59,18 @@
 export default {
   props: {
     data: Object,
-    day: String
+    dayFromUser: String,
+    locationFromUser: String
   },
   data() {
     return {
       dayChosen: "",
-      availability: this.data.availability
+      locationChosen: "",
+      availability: this.data.availability,
+      availableLocation: this.data.location
     };
   },
   methods: {
-    carAvailable() {
-      if (this.data.availability.includes(this.dayChosen)) {
-        console.log("Available for ", this.data.name);
-        return true;
-      }
-    },
     parseDate(val) {
       var dt = new Date(val).toString();
       console.log(dt);
@@ -79,7 +79,10 @@ export default {
   },
   computed: {
     isCarAvailable() {
-      if (this.availability.includes(this.dayChosen)) {
+      if (
+        this.availability.includes(this.dayChosen) &&
+        this.locationChosen == this.availableLocation
+      ) {
         return true;
       } else {
         return false;
@@ -87,12 +90,16 @@ export default {
     }
   },
   watch: {
-    day(val) {
-      this.dayChosen = this.parseDate(this.day);
+    dayFromUser(val) {
+      this.dayChosen = this.parseDate(this.dayFromUser);
+    },
+    locationFromUser(val) {
+      this.locationChosen = this.locationFromUser;
     }
   },
   mounted() {
-    this.dayChosen = this.parseDate(this.day);
+    this.dayChosen = this.parseDate(this.dayFromUser);
+    this.locationChosen = this.locationFromUser;
   }
 };
 </script>
@@ -137,4 +144,3 @@ export default {
   }
 }
 </style>
-

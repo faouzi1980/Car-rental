@@ -1,7 +1,7 @@
 <template>
   <section id="app">
     <transition name="fade" mode="out-in">
-      <component v-on:nextComponent="nextSection" :day="day" :is="currentComponent"></component>
+      <component v-on:nextComponent="nextSection" :day="day" :location="location" :is="currentComponent"></component>
     </transition>
   </section>
 </template>
@@ -15,12 +15,14 @@ export default {
   data() {
     return {
       currentComponent: "Home",
-      day: ""
+      day: "",
+      location: ""
     };
   },
   methods: {
     nextSection(val) {
-      this.day = val;
+      this.day = val.date;
+      this.location = val.location;
       this.currentComponent = "Listing";
     }
   },

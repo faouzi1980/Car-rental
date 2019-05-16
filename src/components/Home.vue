@@ -9,7 +9,7 @@
         <div class="field">
           <div class="control">
             <input
-              v-model="location"
+              v-model="input.location"
               class="input is-medium"
               type="text"
               placeholder="Pick up from"
@@ -21,7 +21,7 @@
         <div class="field">
           <p class="control has-icons-left">
             <flat-pickr
-              v-model="date"
+              v-model="input.date"
               :config="config"
               class="input is-medium"
               placeholder="Select date"
@@ -56,8 +56,10 @@ export default {
   data() {
     return {
       error: false,
-      location: "",
-      date: "",
+      input: {
+        location: "",
+        date: ""
+      },
       config: {
         minDate: "today"
       }
@@ -69,7 +71,7 @@ export default {
         this.error = true;
       } else {
         this.error = false;
-        this.$emit("nextComponent", this.date);
+        this.$emit("nextComponent", this.input);
       }
     }
   },
